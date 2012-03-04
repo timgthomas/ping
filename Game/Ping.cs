@@ -13,6 +13,9 @@ namespace Ping.Game
 		public int ScreenHeight = 600;
 		public int ScreenWidth = 800;
 
+		private Paddle _player1;
+		private Paddle _player2;
+
 		public int Player1Score;
 		public int Player2Score;
 
@@ -31,11 +34,11 @@ namespace Ping.Game
 		{
 			var puck = new Puck(this);
 
-			var player1 = new Paddle(this, 10f);
-			var player2 = new Paddle(this, ScreenWidth - 34f);
+			_player1 = new Paddle(this, 10f);
+			_player2 = new Paddle(this, ScreenWidth - 34f);
 
-			Components.Add(player1);
-			Components.Add(player2);
+			Components.Add(_player1);
+			Components.Add(_player2);
 			Components.Add(puck);
 
 			base.Initialize();
@@ -55,9 +58,12 @@ namespace Ping.Game
 
 		protected override void Update(GameTime gameTime)
 		{
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
+			var currentState = Keyboard.GetState();
 
-			// TODO: Add your update logic here
+			if (currentState.IsKeyDown(Keys.Escape)) Exit();
+
+			UpdatePlayerPaddle(_player1, currentState, Keys.Q, Keys.A);
+			UpdatePlayerPaddle(_player2, currentState, Keys.P, Keys.L);
 
 			base.Update(gameTime);
 		}
@@ -66,7 +72,6 @@ namespace Ping.Game
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			// TODO: Add your drawing code here
 			Window.Title = string.Format("P1: {0} - P2: {1}", Player1Score, Player2Score);
 
 			base.Draw(gameTime);
@@ -76,6 +81,27 @@ namespace Ping.Game
 		{
 			if (player == PlayerIndex.One) Player1Score += 1;
 			if (player == PlayerIndex.Two) Player2Score += 1;
+		}
+
+		private void UpdatePlayerPaddle(Paddle playerPaddle, KeyboardState currentState, Keys up, Keys down)
+		{
+			if (currentState.IsKeyDown(up))
+			{
+				playerPaddle.MoveUp();
+			}
+			else
+			{
+				playerPaddle.StopMovingUp();
+			}
+
+			if (currentState.IsKeyDown(down))
+			{
+				playerPaddle.MoveDown();
+			}
+			else
+			{
+				playerPaddle.StopMovingDown();
+			}
 		}
 	}
 }
