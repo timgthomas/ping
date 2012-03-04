@@ -3,5 +3,6 @@ syntax:glob
 bin
 obj
 
+*.cachefile
 *.suo
 *.user

@@ -6,25 +6,28 @@ namespace Ping.Game
 {
 	public class Ping : Microsoft.Xna.Framework.Game
 	{
-		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+		private GraphicsDeviceManager _graphics;
+
+		public SpriteBatch SpriteBatch;
 
 		public Ping()
 		{
-			graphics = new GraphicsDeviceManager(this);
+			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 		}
 
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
+			var puck = new Puck(this);
+
+			Components.Add(puck);
 
 			base.Initialize();
 		}
 
 		protected override void LoadContent()
 		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
+			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// TODO: use this.Content to load your game content here
 		}
