@@ -8,7 +8,7 @@ namespace Ping.Game
 		/// </summary>
 		private static void Main()
 		{
-			using (var game = new Game1())
+			using (var game = new Ping())
 			{
 				game.Run();
 			}
