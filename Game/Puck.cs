@@ -41,9 +41,18 @@ namespace Ping.Game
 				_velocity.Y = -_velocity.Y;
 			}
 
-			if (_position.X < 0 || (_position.X + _size.X) > _ping.ScreenWidth)
+			if (_position.X < 0)
 			{
 				_velocity.X = -_velocity.X;
+
+				_ping.SideHit(PlayerIndex.Two);
+			}
+
+			if (_position.X + _size.X > _ping.ScreenWidth)
+			{
+				_velocity.X = -_velocity.X;
+
+				_ping.SideHit(PlayerIndex.One);
 			}
 
 			_position = _position + _velocity;
