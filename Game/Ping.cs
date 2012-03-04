@@ -20,6 +20,7 @@ namespace Ping.Game
 					PreferredBackBufferHeight = ScreenHeight,
 					PreferredBackBufferWidth = ScreenWidth
 				};
+
 			Content.RootDirectory = "Content";
 		}
 
@@ -27,6 +28,11 @@ namespace Ping.Game
 		{
 			var puck = new Puck(this);
 
+			var player1 = new Paddle(this, 10f);
+			var player2 = new Paddle(this, ScreenWidth - 34f);
+
+			Components.Add(player1);
+			Components.Add(player2);
 			Components.Add(puck);
 
 			base.Initialize();
