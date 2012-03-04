@@ -43,7 +43,7 @@ namespace Ping.Game
 
 			if (_position.X < 0)
 			{
-				_velocity.X = -_velocity.X;
+				ReflectHorizontally();
 
 				_ping.SideHit(PlayerIndex.Two);
 			}
@@ -56,6 +56,16 @@ namespace Ping.Game
 			}
 
 			_position = _position + _velocity;
+		}
+
+		public Rectangle GetBoundingBox()
+		{
+			return new Rectangle((int)_position.X, (int)_position.Y, (int)_size.X, (int)_size.Y);
+		}
+
+		public void ReflectHorizontally()
+		{
+			_velocity.X = -_velocity.X;
 		}
 	}
 }

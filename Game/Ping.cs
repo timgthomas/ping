@@ -13,6 +13,7 @@ namespace Ping.Game
 		public int ScreenHeight = 600;
 		public int ScreenWidth = 800;
 
+		private Puck _puck;
 		private Paddle _player1;
 		private Paddle _player2;
 
@@ -32,14 +33,14 @@ namespace Ping.Game
 
 		protected override void Initialize()
 		{
-			var puck = new Puck(this);
+			_puck = new Puck(this);
 
 			_player1 = new Paddle(this, 10f);
 			_player2 = new Paddle(this, ScreenWidth - 34f);
 
 			Components.Add(_player1);
 			Components.Add(_player2);
-			Components.Add(puck);
+			Components.Add(_puck);
 
 			base.Initialize();
 		}
@@ -61,6 +62,12 @@ namespace Ping.Game
 			var currentState = Keyboard.GetState();
 
 			if (currentState.IsKeyDown(Keys.Escape)) Exit();
+
+			if (_puck.GetBoundingBox().Intersects(_player1.GetBoundingBox()) ||
+				_puck.GetBoundingBox().Intersects(_player2.GetBoundingBox()))
+			{
+				_puck.ReflectHorizontally();
+			}
 
 			UpdatePlayerPaddle(_player1, currentState, Keys.Q, Keys.A);
 			UpdatePlayerPaddle(_player2, currentState, Keys.P, Keys.L);

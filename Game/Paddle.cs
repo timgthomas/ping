@@ -43,17 +43,22 @@ namespace Ping.Game
 
 			_velocity.Y = 0;
 
-			if (_movingUp && _position.Y > 0)
+			if (_movingUp && _position.Y > 8)
 			{
 				_velocity.Y = _velocity.Y - maxSpeed;
 			}
 
-			if (_movingDown && _position.Y < _ping.ScreenHeight - _size.Y)
+			if (_movingDown && _position.Y < _ping.ScreenHeight - _size.Y - 8)
 			{
 				_velocity.Y = _velocity.Y + maxSpeed;
 			}
 
 			_position = _position + _velocity;
+		}
+
+		public Rectangle GetBoundingBox()
+		{
+			return new Rectangle((int)_position.X, (int)_position.Y, (int)_size.X, (int)_size.Y);
 		}
 
 		public void MoveUp()
