@@ -10,9 +10,16 @@ namespace Ping.Game
 
 		public SpriteBatch SpriteBatch;
 
+		public int ScreenHeight = 600;
+		public int ScreenWidth = 800;
+
 		public Ping()
 		{
-			_graphics = new GraphicsDeviceManager(this);
+			_graphics = new GraphicsDeviceManager(this)
+				{
+					PreferredBackBufferHeight = ScreenHeight,
+					PreferredBackBufferWidth = ScreenWidth
+				};
 			Content.RootDirectory = "Content";
 		}
 

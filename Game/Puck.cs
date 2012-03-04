@@ -9,6 +9,7 @@ namespace Ping.Game
 
 		private Texture2D _texture;
 
+		private Vector2 _size;
 		private Vector2 _position;
 		private Vector2 _velocity;
 
@@ -16,8 +17,9 @@ namespace Ping.Game
 		{
 			_ping = game;
 
-			_position = new Vector2(10.0f, 10.0f);
-			_velocity = new Vector2(1.0f, 1.0f);
+			_size = new Vector2(32f, 32f);
+			_position = new Vector2(10f, 10f);
+			_velocity = new Vector2(5f);
 		}
 
 		protected override void LoadContent()
@@ -34,6 +36,16 @@ namespace Ping.Game
 
 		public override void Update(GameTime gameTime)
 		{
+			if (_position.Y < 0 || (_position.Y + _size.Y) > _ping.ScreenHeight)
+			{
+				_velocity.Y = -_velocity.Y;
+			}
+
+			if (_position.X < 0 || (_position.X + _size.X) > _ping.ScreenWidth)
+			{
+				_velocity.X = -_velocity.X;
+			}
+
 			_position = _position + _velocity;
 		}
 	}
