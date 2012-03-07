@@ -16,12 +16,12 @@ namespace Ping.Game
 		private bool _movingUp;
 		private bool _movingDown;
 
-		public Paddle(Ping game, float location) : base(game)
+		public Paddle(Ping game, Vector2 position) : base(game)
 		{
 			_ping = game;
 
 			_size = new Vector2(24f, 88f);
-			_position = new Vector2(location, 10f);
+			_position = position;
 			_velocity = new Vector2(0f);
 		}
 
@@ -40,6 +40,8 @@ namespace Ping.Game
 		public override void Update(GameTime gameTime)
 		{
 			const float maxSpeed = 5f;
+
+			if (!_ping.GameRunning) return;
 
 			_velocity.Y = 0;
 

@@ -7,6 +7,7 @@ namespace Ping.Game
 	public class Ping : Microsoft.Xna.Framework.Game
 	{
 		private GraphicsDeviceManager _graphics;
+		private KeyboardState _priorState;
 
 		public SpriteBatch SpriteBatch;
 
@@ -17,6 +18,7 @@ namespace Ping.Game
 		private Paddle _player1;
 		private Paddle _player2;
 
+		public bool GameRunning;
 		public int Player1Score;
 		public int Player2Score;
 
@@ -33,10 +35,13 @@ namespace Ping.Game
 
 		protected override void Initialize()
 		{
-			_puck = new Puck(this);
+			_priorState = Keyboard.GetState();
 
-			_player1 = new Paddle(this, 10f);
-			_player2 = new Paddle(this, ScreenWidth - 34f);
+			_puck = new Puck(this, new Vector2(ScreenWidth / 2f - 16f, ScreenHeight / 2f - 16f));
+
+			float verticalCenter = (ScreenHeight / 2.0f) - 44.0f;
+			_player1 = new Paddle(this, new Vector2(10f, verticalCenter));
+			_player2 = new Paddle(this, new Vector2(ScreenWidth - 34f, verticalCenter));
 
 			Components.Add(_player1);
 			Components.Add(_player2);
@@ -63,14 +68,24 @@ namespace Ping.Game
 
 			if (currentState.IsKeyDown(Keys.Escape)) Exit();
 
-			if (_puck.GetBoundingBox().Intersects(_player1.GetBoundingBox()) ||
-				_puck.GetBoundingBox().Intersects(_player2.GetBoundingBox()))
+			if (GameRunning)
 			{
-				_puck.ReflectHorizontally();
+				if (_puck.GetBoundingBox().Intersects(_player1.GetBoundingBox()) ||
+					_puck.GetBoundingBox().Intersects(_player2.GetBoundingBox()))
+				{
+					_puck.ReflectHorizontally();
+				}
+
+				UpdatePlayerPaddle(_player1, currentState, Keys.Q, Keys.A);
+				UpdatePlayerPaddle(_player2, currentState, Keys.P, Keys.L);
 			}
 
-			UpdatePlayerPaddle(_player1, currentState, Keys.Q, Keys.A);
-			UpdatePlayerPaddle(_player2, currentState, Keys.P, Keys.L);
+			if (currentState.IsKeyDown(Keys.Enter) && _priorState.IsKeyUp(Keys.Enter))
+			{
+				GameRunning = !GameRunning;
+			}
+
+			_priorState = currentState;
 
 			base.Update(gameTime);
 		}

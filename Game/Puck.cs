@@ -13,12 +13,12 @@ namespace Ping.Game
 		private Vector2 _position;
 		private Vector2 _velocity;
 
-		public Puck(Ping game) : base(game)
+		public Puck(Ping game, Vector2 position) : base(game)
 		{
 			_ping = game;
 
 			_size = new Vector2(32f, 32f);
-			_position = new Vector2(10f, 10f);
+			_position = position;
 			_velocity = new Vector2(5f);
 		}
 
@@ -36,6 +36,8 @@ namespace Ping.Game
 
 		public override void Update(GameTime gameTime)
 		{
+			if (!_ping.GameRunning) return;
+
 			if (_position.Y < 0 || (_position.Y + _size.Y) > _ping.ScreenHeight)
 			{
 				_velocity.Y = -_velocity.Y;
