@@ -7,7 +7,10 @@ namespace Ping.Game
 	{
 		private readonly Ping _ping;
 
-		private Texture2D _texture;
+		private static Texture2D _texture;
+		private static SpriteFont _monofur;
+		
+		private int _score;
 
 		private Vector2 _size;
 		private Vector2 _position;
@@ -28,12 +31,14 @@ namespace Ping.Game
 		protected override void LoadContent()
 		{
 			_texture = Game.Content.Load<Texture2D>("paddle");
+			_monofur = Game.Content.Load<SpriteFont>("monofur");
 		}
 
 		public override void Draw(GameTime gameTime)
 		{
 			_ping.SpriteBatch.Begin();
 			_ping.SpriteBatch.Draw(_texture, _position, Color.White);
+			_ping.SpriteBatch.DrawString(_monofur, _score.ToString(), _position, Color.White);
 			_ping.SpriteBatch.End();
 		}
 
@@ -81,6 +86,11 @@ namespace Ping.Game
 		public void StopMovingDown()
 		{
 			_movingDown = false;
+		}
+
+		public void Score()
+		{
+			_score += 1;
 		}
 	}
 }

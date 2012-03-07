@@ -18,9 +18,9 @@ namespace Ping.Game
 		private Paddle _player1;
 		private Paddle _player2;
 
+		public bool GameStarted;
 		public bool GameRunning;
-		public int Player1Score;
-		public int Player2Score;
+		private Messages _messages;
 
 		public Ping()
 		{
@@ -42,10 +42,13 @@ namespace Ping.Game
 			float verticalCenter = (ScreenHeight / 2.0f) - 44.0f;
 			_player1 = new Paddle(this, new Vector2(10f, verticalCenter));
 			_player2 = new Paddle(this, new Vector2(ScreenWidth - 34f, verticalCenter));
+			_messages = new Messages(this);
+			_messages.SetMessage(Messages.Start);
 
 			Components.Add(_player1);
 			Components.Add(_player2);
 			Components.Add(_puck);
+			Components.Add(_messages);
 
 			base.Initialize();
 		}
@@ -82,7 +85,10 @@ namespace Ping.Game
 
 			if (currentState.IsKeyDown(Keys.Enter) && _priorState.IsKeyUp(Keys.Enter))
 			{
+				GameStarted = true;
 				GameRunning = !GameRunning;
+
+				_messages.SetMessage(GameRunning ? Messages.Empty : Messages.Paused);
 			}
 
 			_priorState = currentState;
@@ -94,15 +100,13 @@ namespace Ping.Game
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			Window.Title = string.Format("P1: {0} - P2: {1}", Player1Score, Player2Score);
-
 			base.Draw(gameTime);
 		}
 
 		public void SideHit(PlayerIndex player)
 		{
-			if (player == PlayerIndex.One) Player1Score += 1;
-			if (player == PlayerIndex.Two) Player2Score += 1;
+			if (player == PlayerIndex.One) _player1.Score();
+			if (player == PlayerIndex.Two) _player2.Score();
 		}
 
 		private void UpdatePlayerPaddle(Paddle playerPaddle, KeyboardState currentState, Keys up, Keys down)
