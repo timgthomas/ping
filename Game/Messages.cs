@@ -31,7 +31,7 @@ namespace Ping.Game
 				_ping.ScreenHeight / 2.0f - _monofur.MeasureString(_message).Y / 2.0f);
 
 			_ping.SpriteBatch.Begin();
-			_ping.SpriteBatch.DrawString(_monofur, _message, location, Color.Magenta);
+			_ping.SpriteBatch.DrawString(_monofur, _message, location, Color.White);
 			_ping.SpriteBatch.End();
 		}
 

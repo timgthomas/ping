@@ -36,9 +36,14 @@ namespace Ping.Game
 
 		public override void Draw(GameTime gameTime)
 		{
+			var scoreSize = _monofur.MeasureString(_score.ToString());
+			var location = new Vector2(
+				_position.X + + _size.X / 2.0f - scoreSize.X / 2.0f,
+				_position.Y + _size.Y / 2.0f - scoreSize.Y / 2.0f);
+
 			_ping.SpriteBatch.Begin();
 			_ping.SpriteBatch.Draw(_texture, _position, Color.White);
-			_ping.SpriteBatch.DrawString(_monofur, _score.ToString(), _position, Color.White);
+			_ping.SpriteBatch.DrawString(_monofur, _score.ToString(), location, Color.White);
 			_ping.SpriteBatch.End();
 		}
 
