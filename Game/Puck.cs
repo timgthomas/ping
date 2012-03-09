@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Ping.Game
@@ -12,6 +13,9 @@ namespace Ping.Game
 		private Vector2 _size;
 		private Vector2 _position;
 		private Vector2 _velocity;
+
+		private double _secondsSinceLastFrameTick;
+		private int _frameIndex;
 
 		public Puck(Ping game, Vector2 position) : base(game)
 		{
@@ -29,9 +33,17 @@ namespace Ping.Game
 
 		public override void Draw(GameTime gameTime)
 		{
+			var textureFrame = new Rectangle(0, 32 * _frameIndex, 32, 32);
+
 			_ping.SpriteBatch.Begin();
-			_ping.SpriteBatch.Draw(_texture, _position, Color.White);
+			_ping.SpriteBatch.Draw(_texture, _position, textureFrame, Color.White);
 			_ping.SpriteBatch.End();
+
+			if (gameTime.TotalGameTime.TotalSeconds - _secondsSinceLastFrameTick < 0.0625f) return;
+			_frameIndex++;
+			if (_frameIndex > 7) _frameIndex = 0;
+
+			_secondsSinceLastFrameTick = gameTime.TotalGameTime.TotalSeconds;
 		}
 
 		public override void Update(GameTime gameTime)
