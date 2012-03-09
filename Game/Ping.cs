@@ -17,10 +17,10 @@ namespace Ping.Game
 		private Puck _puck;
 		private Paddle _player1;
 		private Paddle _player2;
+		private Messages _messages;
 
 		public bool GameStarted;
 		public bool GameRunning;
-		private Messages _messages;
 
 		public Ping()
 		{
@@ -37,7 +37,9 @@ namespace Ping.Game
 		{
 			_priorState = Keyboard.GetState();
 
-			_puck = new Puck(this, new Vector2(ScreenWidth / 2f - 16f, ScreenHeight / 2f - 16f));
+			// Initialize game components.
+			var puckStartPosition = new Vector2(ScreenWidth / 2f - 16f, ScreenHeight / 2f - 16f);
+			_puck = new Puck(this, puckStartPosition);
 
 			float verticalCenter = (ScreenHeight / 2.0f) - 44.0f;
 			_player1 = new Paddle(this, new Vector2(10f, verticalCenter));
@@ -57,12 +59,12 @@ namespace Ping.Game
 		{
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// TODO: use this.Content to load your game content here
+			// NOTE: I'm empty!
 		}
 
 		protected override void UnloadContent()
 		{
-			// TODO: Unload any non ContentManager content here
+			// We're not using this for Ping.
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -73,16 +75,19 @@ namespace Ping.Game
 
 			if (GameRunning)
 			{
+				// Puck/Paddle collision
 				if (_puck.GetBoundingBox().Intersects(_player1.GetBoundingBox()) ||
 					_puck.GetBoundingBox().Intersects(_player2.GetBoundingBox()))
 				{
 					_puck.ReflectHorizontally();
 				}
 
+				// Player controls
 				UpdatePlayerPaddle(_player1, currentState, Keys.Q, Keys.A);
 				UpdatePlayerPaddle(_player2, currentState, Keys.P, Keys.L);
 			}
 
+			// State management
 			if (currentState.IsKeyDown(Keys.Enter) && _priorState.IsKeyUp(Keys.Enter))
 			{
 				GameStarted = true;
@@ -99,6 +104,8 @@ namespace Ping.Game
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.FromNonPremultiplied(63, 63, 63, 255));
+
+			// NOTE: I'm empty!
 
 			base.Draw(gameTime);
 		}
