@@ -44,8 +44,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="monofur.spritefont">
-      <Name>monofur</Name>
+    <Compile Include="verdana.spritefont">
+      <Name>verdana</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>

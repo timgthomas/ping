@@ -31,7 +31,7 @@ namespace Ping.Game
 		protected override void LoadContent()
 		{
 			_texture = Game.Content.Load<Texture2D>("paddle");
-			_monofur = Game.Content.Load<SpriteFont>("monofur");
+			_monofur = Game.Content.Load<SpriteFont>("verdana");
 		}
 
 		public override void Draw(GameTime gameTime)
